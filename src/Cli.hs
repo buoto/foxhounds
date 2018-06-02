@@ -3,6 +3,7 @@ module Cli
     ) where
 
 import System.Exit
+import Board
 
 cliLoop :: IO ()
 cliLoop = do
@@ -26,5 +27,8 @@ handleOption _ = putStrLn "Unknown unput!"
 
 promptLine :: String -> IO Char
 promptLine prompt = do
-    putStr prompt
-    head <$> getLine
+    putStrLn prompt
+    line <- getLine
+    case line of
+        (c:_) -> return c
+        [] -> return 'h'

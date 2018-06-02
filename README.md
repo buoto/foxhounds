@@ -6,6 +6,10 @@ Project is managed using [**stack**](https://docs.haskellstack.org/en/stable/REA
 ## Init project
 ```
 $ stack setup
+```
+
+## Build
+```
 $ stack build
 ```
 
@@ -16,5 +20,5 @@ $ stack exec foxhounds-exe
 
 ## Test
 ```
-$ stack exec foxhounds-test
+$ stack test
 ```
