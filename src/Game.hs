@@ -20,13 +20,13 @@ data Game = Game Board State
     deriving (Show)
 
 initGame :: Game
-initGame = Game initBoard (Turn PlayerFox)
+initGame = Game initBoard $ Turn PlayerFox
 
 nextState :: Game -> State
-nextState (Game _ (Winner w)) = (Winner w)
+nextState (Game _ (Winner w)) = Winner w
 nextState (Game b (Turn t)) =
     case boardWinner b of
         Just p -> Winner p
-        Nothing -> Turn (next t)
+        Nothing -> Turn $ next t
     where next PlayerFox    = PlayerHounds
           next PlayerHounds = PlayerFox
