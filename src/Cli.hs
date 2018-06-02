@@ -1,9 +1,8 @@
-module Main where
+module Cli
+    ( cliLoop
+    ) where
 
 import System.Exit
-
-main :: IO ()
-main = cliLoop
 
 cliLoop :: IO ()
 cliLoop = do
