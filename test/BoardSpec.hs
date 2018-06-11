@@ -36,3 +36,21 @@ spec = do
                                                                                , (Position 5 7)
                                                                                , (Position 7 7)
                                                                                ))
+  describe "is position empty" $ do
+    it "should be empty" $
+        isPositionEmpty [(Position 1 1), (Position 3 3)] (Position 1 2) `shouldBe` True
+    it "should be taken" $
+        isPositionEmpty [(Position 1 1), (Position 3 3), (Position 6 6)] (Position 3 3) `shouldBe` False
+  describe "possibleDirections" $ do
+    it "fox all directions" $
+        possibleDirections (Board (Position 1 1) ( (Position 1 7), (Position 3 7), (Position 5 7), (Position 7 7)))
+            Fox `shouldBe` [(Position 2 2), (Position 2 0), (Position 0 2), (Position 0 0)]
+    it "fox in corner" $
+        possibleDirections (Board (Position 0 0) ( (Position 1 7), (Position 3 7), (Position 5 7), (Position 7 7)))
+            Fox `shouldBe` [(Position 1 1)]
+    it "hound2 all directions" $
+        possibleDirections (Board (Position 0 0) ( (Position 1 7), (Position 4 4), (Position 5 7), (Position 7 7)))
+            Hound2 `shouldBe` [(Position 5 3), (Position 3 3)]
+    it "hound2 blocked" $
+        possibleDirections (Board (Position 5 3) ( (Position 1 7), (Position 4 4), (Position 5 7), (Position 7 7)))
+            Hound2 `shouldBe` [(Position 3 3)]

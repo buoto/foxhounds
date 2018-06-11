@@ -59,6 +59,27 @@ movePiece dir (Position x y) =
         NW -> Position (x-1) (y+1)
         SW  -> Position (x-1) (y-1)
 
+
+isPositionEmpty :: [Position] -> Position -> Bool
+isPositionEmpty [] _ = True
+isPositionEmpty (boardPosition:tail) lookPosition | (x lookPosition < 0 || y lookPosition < 0 || x lookPosition > 7 || y lookPosition > 7) = False
+                                                  | boardPosition == lookPosition = False
+                                                  | otherwise = isPositionEmpty tail lookPosition
+
+accumulatedDirections :: [Position] -> [Position] -> [Position]
+accumulatedDirections _ [] = []
+accumulatedDirections boardPositions (lookPosition:tail)
+    | (isPositionEmpty boardPositions lookPosition) = lookPosition:(accumulatedDirections boardPositions tail)
+    | otherwise = (accumulatedDirections boardPositions tail)
+
 -- Get possible moves for piece for provided board state.
-possibleDirections :: Board -> Piece -> [Direction]
-possibleDirections _ _ = [NE, SE, NW, SW] -- TODO
+possibleDirections :: Board -> Piece -> [Position]
+possibleDirections (Board fox (h1, h2, h3, h4)) Fox =
+    accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece NE fox), (movePiece SE fox), (movePiece NW fox), (movePiece SW fox)]
+
+possibleDirections (Board fox (h1, h2, h3, h4)) piece =
+    case piece of
+        Hound1 -> accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece SE h1), (movePiece SW h1)]
+        Hound2 -> accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece SE h2), (movePiece SW h2)]
+        Hound3 -> accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece SE h3), (movePiece SW h3)]
+        Hound4 -> accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece SE h4), (movePiece SW h4)]
