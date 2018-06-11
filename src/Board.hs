@@ -37,7 +37,7 @@ containsTuple4 (p1, p2, p3, p4) pos = p1 == pos || p2 == pos || p3 == pos || p4 
 
 data Piece = Fox | Hound1 | Hound2 | Hound3 | Hound4
 
-data Direction = North | East | South | West
+data Direction = NE | SE | NW | SW
 
 data Move = Move Piece Direction
 
@@ -54,11 +54,11 @@ applyMove (Move piece dir) (Board fox (h1, h2, h3, h4)) =
 movePiece :: Direction -> Position -> Position
 movePiece dir (Position x y) =
     case dir of
-        North -> Position x    (y+1)
-        East  -> Position (x+1) y
-        South -> Position x    (y-1)
-        West  -> Position (x-1) y
+        NE -> Position (x+1) (y+1)
+        SE  -> Position (x+1) (y-1)
+        NW -> Position (x-1) (y+1)
+        SW  -> Position (x-1) (y-1)
 
 -- Get possible moves for piece for provided board state.
 possibleDirections :: Board -> Piece -> [Direction]
-possibleDirections _ _ = [North, East, South, West] -- TODO
+possibleDirections _ _ = [NE, SE, NW, SW] -- TODO

@@ -21,17 +21,17 @@ spec = do
     it "adds \\n inside" $
         concWithNewline "a" "b" `shouldBe` "a\nb"
   describe "movePiece" $ do
-    it "moves up" $
-        movePiece North (Position 0 0) `shouldBe` (Position 0 1)
-    it "moves down" $
-        movePiece South (Position 0 1) `shouldBe` (Position 0 0)
-    it "moves left" $
-        movePiece West (Position 1 0) `shouldBe` (Position 0 0)
-    it "moves right" $
-        movePiece East (Position 0 0) `shouldBe` (Position 1 0)
+    it "moves NE" $
+        movePiece NE (Position 1 1) `shouldBe` (Position 2 2)
+    it "moves SE" $
+        movePiece SE (Position 1 1) `shouldBe` (Position 2 0)
+    it "moves NW" $
+        movePiece NW (Position 1 1) `shouldBe` (Position 0 2)
+    it "moves SW" $
+        movePiece SW (Position 1 1) `shouldBe` (Position 0 0)
   describe "applyMove" $ do
-    it "moves fox up" $
-        applyMove (Move Fox North) initBoard  `shouldBe`  (Board (Position 0 1) ( (Position 1 7)
+    it "moves fox NE" $
+        applyMove (Move Fox NE) initBoard  `shouldBe`  (Board (Position 1 1) ( (Position 1 7)
                                                                                , (Position 3 7)
                                                                                , (Position 5 7)
                                                                                , (Position 7 7)
