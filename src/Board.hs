@@ -36,8 +36,10 @@ showBoardCell (Board fox hounds) pos
 containsTuple4 (p1, p2, p3, p4) pos = p1 == pos || p2 == pos || p3 == pos || p4 == pos
 
 data Piece = Fox | Hound1 | Hound2 | Hound3 | Hound4
+    deriving (Eq, Show)
 
 data Direction = NE | SE | NW | SW
+    deriving (Eq, Show)
 
 data Move = Move Piece Direction
 
@@ -66,20 +68,32 @@ isPositionEmpty (boardPosition:tail) lookPosition | (x lookPosition < 0 || y loo
                                                   | boardPosition == lookPosition = False
                                                   | otherwise = isPositionEmpty tail lookPosition
 
-accumulatedDirections :: [Position] -> [Position] -> [Position]
-accumulatedDirections _ [] = []
-accumulatedDirections boardPositions (lookPosition:tail)
-    | (isPositionEmpty boardPositions lookPosition) = lookPosition:(accumulatedDirections boardPositions tail)
-    | otherwise = (accumulatedDirections boardPositions tail)
+accumulatedDirections :: [Position] -> [Position] -> [Direction] -> Piece -> [(Piece, Direction)]
+accumulatedDirections _ [] _ _ = []
+accumulatedDirections boardPositions (lookPosition:tailPosition) (lookDirection:tailDirection) piece
+    | (isPositionEmpty boardPositions lookPosition) = (piece, lookDirection):(accumulatedDirections boardPositions tailPosition tailDirection piece)
+    | otherwise = (accumulatedDirections boardPositions tailPosition tailDirection piece)
 
 -- Get possible moves for piece for provided board state.
-possibleDirections :: Board -> Piece -> [Position]
+possibleDirections :: Board -> Piece -> [(Piece, Direction)]
 possibleDirections (Board fox (h1, h2, h3, h4)) Fox =
-    accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece NE fox), (movePiece SE fox), (movePiece NW fox), (movePiece SW fox)]
+    accumulatedDirections
+        [fox, h1, h2, h3, h4]
+        [(movePiece NE fox), (movePiece SE fox), (movePiece NW fox), (movePiece SW fox)]
+        [NE, SE, NW, SW]
+        Fox
 
 possibleDirections (Board fox (h1, h2, h3, h4)) piece =
-    case piece of
-        Hound1 -> accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece SE h1), (movePiece SW h1)]
-        Hound2 -> accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece SE h2), (movePiece SW h2)]
-        Hound3 -> accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece SE h3), (movePiece SW h3)]
-        Hound4 -> accumulatedDirections [fox, h1, h2, h3, h4] [(movePiece SE h4), (movePiece SW h4)]
+    accumulatedDirections
+        [fox, h1, h2, h3, h4]
+        [(movePiece SE x), (movePiece SW x)]
+        [SE, SW]
+        piece
+    where x = case piece of
+        Hound1 -> h1
+        Hound2 -> h2
+        Hound3 -> h3
+        Hound4 -> h4
+
+
+

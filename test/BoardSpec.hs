@@ -44,13 +44,16 @@ spec = do
   describe "possibleDirections" $ do
     it "fox all directions" $
         possibleDirections (Board (Position 1 1) ( (Position 1 7), (Position 3 7), (Position 5 7), (Position 7 7)))
-            Fox `shouldBe` [(Position 2 2), (Position 2 0), (Position 0 2), (Position 0 0)]
+            Fox `shouldBe` [(Fox, NE), (Fox, SE), (Fox, NW), (Fox, SW)]
     it "fox in corner" $
         possibleDirections (Board (Position 0 0) ( (Position 1 7), (Position 3 7), (Position 5 7), (Position 7 7)))
-            Fox `shouldBe` [(Position 1 1)]
+            Fox `shouldBe` [(Fox, NE)]
+    it "fox blocked" $
+        possibleDirections (Board (Position 0 4) ( (Position 1 5), (Position 1 3), (Position 5 7), (Position 7 7)))
+            Fox `shouldBe` []
     it "hound2 all directions" $
         possibleDirections (Board (Position 0 0) ( (Position 1 7), (Position 4 4), (Position 5 7), (Position 7 7)))
-            Hound2 `shouldBe` [(Position 5 3), (Position 3 3)]
+            Hound2 `shouldBe` [(Hound2, SE), (Hound2, SW)]
     it "hound2 blocked" $
         possibleDirections (Board (Position 5 3) ( (Position 1 7), (Position 4 4), (Position 5 7), (Position 7 7)))
-            Hound2 `shouldBe` [(Position 3 3)]
+            Hound2 `shouldBe` [(Hound2, SW)]
