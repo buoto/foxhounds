@@ -89,11 +89,12 @@ possibleDirections (Board fox (h1, h2, h3, h4)) piece =
         [(movePiece SE x), (movePiece SW x)]
         [SE, SW]
         piece
-    where x = case piece of
-        Hound1 -> h1
-        Hound2 -> h2
-        Hound3 -> h3
-        Hound4 -> h4
+    where
+        x = case piece of
+            Hound1 -> h1
+            Hound2 -> h2
+            Hound3 -> h3
+            Hound4 -> h4
 
 
 

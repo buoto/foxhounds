@@ -6,21 +6,21 @@ data Player = PlayerFox | PlayerHounds
     deriving (Show, Eq, Enum)
 
 -- Check if player has any moves
-hasAnyMoves :: Board -> Player -> Bool
-hasAnyMoves board PlayerFox =
-    length (possibleDirections board Fox) /= 0
+allMoves :: Board -> Player -> [(Piece, Direction)]
+allMoves board PlayerFox =
+    possibleDirections board Fox
 
-hasAnyMoves board PlayerHounds =
-    length (possibleDirections board Hound1) /= 0 || length (possibleDirections board Hound2) /= 0
-        || length (possibleDirections board Hound4) /= 0 || length (possibleDirections board Hound4) /= 0
+allMoves board PlayerHounds =
+    (possibleDirections board Hound1)  ++ (possibleDirections board Hound2)
+        ++ (possibleDirections board Hound3) ++ (possibleDirections board Hound4)
 
 
 -- Get board winner or nothing.
 boardWinner :: Board -> Player -> Maybe Player
 boardWinner (Board (Position _ 7) _) _ = Just PlayerFox
 boardWinner board turn
-    | not(hasAnyMoves board PlayerFox) = Just PlayerHounds
-    | turn == PlayerHounds && not(hasAnyMoves board PlayerHounds) = Just PlayerFox
+    | (allMoves board PlayerFox) == [] = Just PlayerHounds
+    | turn == PlayerHounds && (allMoves board PlayerHounds) == [] = Just PlayerFox
     | otherwise = Nothing
 
 data State = Turn Player | Winner Player
