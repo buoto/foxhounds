@@ -36,7 +36,7 @@ promptLine prompt = do
         [] -> return 'h'
 
 runGameCli :: Game -> IO ()
-runGameCli (Game board (Winner player)) = putStr $ show player ++ " has won!"
+runGameCli (Game board (Winner player)) = putStrLn $ show player ++ " has won!"
 
 runGameCli (Game board (Turn PlayerFox)) = runGameCli (Game nextBoard (nextState afterMove))
   where (value, nextBoard) = pickBestBoard board PlayerFox
