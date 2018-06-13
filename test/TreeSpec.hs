@@ -64,3 +64,16 @@ spec = do
   describe "calcHeuristic" $ do
     it "2x classic + 2 + 3" $
         calcHeuristic (Board (Position 4 2) ( (Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2))) `shouldBe` 11.5
+  describe "getMaximumBoard" $ do
+    it "best board based on rates" $
+       getMaximumBoard [
+            (Board (Position 0 0) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0))),
+            (Board (Position 1 1) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0))),
+            (Board (Position 2 2) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0))),
+            (Board (Position 3 3) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0)))
+       ] [16, 19, 9, 11] `shouldBe` (19, (Board (Position 1 1) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0))))
+  describe "pickBestBoard" $ do
+    it "best board for fox" $
+       snd (pickBestBoard (Board (Position 5 3) ((Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2))) PlayerFox) `shouldBe`
+            (Board (Position 4 2) ((Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2)))
+

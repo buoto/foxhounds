@@ -29,6 +29,22 @@ calcHeuristic (Board fox (h1,h2,h3,h4)) =
 
 -- calculates heuristic - the smaller, the better for the hounds
 
+getMaximumBoard :: [Board] -> [Float] -> (Float, Board)
+getMaximumBoard [] [] = (-10000000000, (Board (Position 0 0) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0))))
+getMaximumBoard (b:boards) (r:rates) =
+    if r > (fst otherMax) then (r, b) else otherMax
+    where
+        otherMax = getMaximumBoard boards rates
+
+
+pickBestBoard :: Board -> Player -> (Float, Board)
+pickBestBoard board player =
+    getMaximumBoard possibleBoards rates
+    where
+        possibleBoards = allPossibleBoards board player
+        rates = map (\x -> rate x (next player) 6) possibleBoards
+        next PlayerFox = PlayerHounds
+        next PlayerHounds = PlayerFox
 
 
 rate :: Board -> Player -> Integer -> Float
