@@ -1,0 +1,11 @@
+foxhounds-0.1.0.0: build (lib + exe)
+Preprocessing library for foxhounds-0.1.0.0..
+Building library for foxhounds-0.1.0.0..
+[5 of 5] Compiling Cli              ( src\Cli.hs, .stack-work\dist\5c8418a7\build\Cli.o )
+Preprocessing executable 'foxhounds-exe' for foxhounds-0.1.0.0..
+Building executable 'foxhounds-exe' for foxhounds-0.1.0.0..
+Linking .stack-work\dist\5c8418a7\build\foxhounds-exe\foxhounds-exe.exe ...
+foxhounds-0.1.0.0: copy/register
+Installing library in C:\Informatyka\foxhounds\.stack-work\install\61a5ea4e\lib\x86_64-windows-ghc-8.2.2\foxhounds-0.1.0.0-3bhZxhSmf8VBLEU4Uioegu
+Installing executable foxhounds-exe in C:\Informatyka\foxhounds\.stack-work\install\61a5ea4e\bin
+Registering library for foxhounds-0.1.0.0..

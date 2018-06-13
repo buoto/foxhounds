@@ -1,0 +1,68 @@
+
+Board
+  showBoardCell
+    prints fox
+    prints hound
+    prints empty
+  showBoardRow
+    prints 7th initBoard row
+  showBoard
+    prints initBoard
+  concWithNewline
+    adds \n inside
+  movePiece
+    moves NE
+    moves SE
+    moves NW
+    moves SW
+  applyMove
+    moves fox NE
+  is position empty
+    should be empty
+    should be taken
+  possibleDirections
+    fox all directions
+    fox in corner
+    fox blocked
+    hound2 all directions
+    hound2 blocked
+Game
+  nextState
+    gives hounds turn in initial
+    gives hounds turn in non winning state
+    gives fox turn in non winning state
+    stays in fox winning state
+    stays in hounds winning state
+    blocked fox looses
+    fox at the 7 row wins
+    blocked hounds loose
+Tree
+  possibleMoves
+    fox turn not blocked
+    fox in corner
+    no fox moves
+    hounds moves
+  rate
+    rate for winning board - fox
+    rate for winning board - hounds
+    rate: fox turn, depth 0
+    rate: hounds turn, depth 0
+  horizontalDistanceBetweenPositions
+    bigger first
+    smaller first
+  diagonalDistanceBetweenPositions
+    classic 3x4x5
+  foxDistance
+    2x classic + 2 + 3
+  maxHoundDistance
+    2x classic + 2 + 3
+    the same row
+  calcHeuristic
+    2x classic + 2 + 3
+  getMaximumBoard
+    best board based on rates
+  pickBestBoard
+    best board for fox
+
+Finished in 0.1392 seconds
+43 examples, 0 failures

@@ -31,7 +31,7 @@ spec = do
         movePiece SW (Position 1 1) `shouldBe` (Position 0 0)
   describe "applyMove" $ do
     it "moves fox NE" $
-        applyMove (Move Fox NE) initBoard  `shouldBe`  (Board (Position 1 1) ( (Position 1 7)
+        applyMove  initBoard (Move Fox NE) `shouldBe`  (Board (Position 1 1) ( (Position 1 7)
                                                                                , (Position 3 7)
                                                                                , (Position 5 7)
                                                                                , (Position 7 7)

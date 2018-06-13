@@ -6,7 +6,7 @@ data Player = PlayerFox | PlayerHounds
     deriving (Show, Eq, Enum)
 
 -- Check if player has any moves
-allMoves :: Board -> Player -> [(Piece, Direction)]
+allMoves :: Board -> Player -> [(Piece, Direction)] -- TODO change to Move instead of tuple
 allMoves board PlayerFox =
     possibleDirections board Fox
 

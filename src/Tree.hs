@@ -66,7 +66,6 @@ rate board player depth = if depth > 0 then minmax else heuristic
 
 allPossibleBoards :: Board -> Player -> [Board]
 allPossibleBoards board player =
-    map (\x -> applyMove (Move (fst x) (snd x)) board) allPossibleMoves
+    map (\x -> applyMove board (Move (fst x) (snd x))) allPossibleMoves
     where
         allPossibleMoves = allMoves board player
-

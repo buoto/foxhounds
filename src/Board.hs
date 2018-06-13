@@ -41,11 +41,12 @@ data Piece = Fox | Hound1 | Hound2 | Hound3 | Hound4
 data Direction = NE | SE | NW | SW
     deriving (Eq, Show)
 
+
 data Move = Move Piece Direction
 
-applyMove :: Move -> Board -> Board
-applyMove (Move Fox dir) (Board fox hounds) = Board (movePiece dir fox) hounds
-applyMove (Move piece dir) (Board fox (h1, h2, h3, h4)) =
+applyMove :: Board -> Move -> Board
+applyMove (Board fox hounds) (Move Fox dir) = Board (movePiece dir fox) hounds
+applyMove (Board fox (h1, h2, h3, h4)) (Move piece dir) =
     case piece of
         Hound1 -> Board fox ((move h1), h2, h3, h4)
         Hound2 -> Board fox (h1, (move h2), h3, h4)
@@ -68,14 +69,14 @@ isPositionEmpty (boardPosition:tail) lookPosition | (x lookPosition < 0 || y loo
                                                   | boardPosition == lookPosition = False
                                                   | otherwise = isPositionEmpty tail lookPosition
 
-accumulatedDirections :: [Position] -> [Position] -> [Direction] -> Piece -> [(Piece, Direction)]
+accumulatedDirections :: [Position] -> [Position] -> [Direction] -> Piece -> [(Piece, Direction)] -- TODO change to Move instead of tuple
 accumulatedDirections _ [] _ _ = []
 accumulatedDirections boardPositions (lookPosition:tailPosition) (lookDirection:tailDirection) piece
     | (isPositionEmpty boardPositions lookPosition) = (piece, lookDirection):(accumulatedDirections boardPositions tailPosition tailDirection piece)
     | otherwise = (accumulatedDirections boardPositions tailPosition tailDirection piece)
 
 -- Get possible moves for piece for provided board state.
-possibleDirections :: Board -> Piece -> [(Piece, Direction)]
+possibleDirections :: Board -> Piece -> [(Piece, Direction)] -- TODO change to Move instead of tuple
 possibleDirections (Board fox (h1, h2, h3, h4)) Fox =
     accumulatedDirections
         [fox, h1, h2, h3, h4]
@@ -97,4 +98,5 @@ possibleDirections (Board fox (h1, h2, h3, h4)) piece =
             Hound4 -> h4
 
 
-
+isMoveLegal :: Move -> Board -> Bool
+isMoveLegal (Move piece direction) board = elem (piece, direction) $ possibleDirections board piece
