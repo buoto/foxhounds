@@ -44,7 +44,7 @@ runGameCli (Game board (Turn PlayerFox)) = runGameCli (Game nextBoard (nextState
 
 runGameCli (Game board (Turn PlayerHounds)) = do
     putStr $ showBoard board
-    putStr $ show $ allMoves board PlayerHounds
+    putStrLn $ show $ allMoves board PlayerHounds
     nextBoard <- applyMove board <$> promptTurn board
     runGameCli (Game nextBoard (nextState (Game nextBoard (Turn PlayerHounds))))
 
@@ -77,8 +77,12 @@ promptDirection = do
       promptDirection
 
 directionFromCommand :: Char -> Maybe Direction
-directionFromCommand '1' = Just SE -- TODO
+directionFromCommand '1' = Just SE
 directionFromCommand '2' = Just SW
+directionFromCommand 'e' = Just SE
+directionFromCommand 'w' = Just SW
+directionFromCommand 'r' = Just SE
+directionFromCommand 'l' = Just SW
 directionFromCommand  _  = Nothing
 
 houndFromCommand :: Char -> Maybe Piece
@@ -88,7 +92,7 @@ houndFromCommand '3' = Just Hound3
 houndFromCommand '4' = Just Hound4
 houndFromCommand  _  = Nothing
 
-directionPrompt = "Check direction\n"
+directionPrompt = "Choose direction (l,r)"
 
 gameMenu = "Choose one of the following numbers:\n\
- \1 .. 4 - number of hound to move\n"
+ \1 .. 4 - number of hound to move"
