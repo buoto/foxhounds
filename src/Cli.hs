@@ -50,20 +50,43 @@ runGameCli (Game board (Turn PlayerHounds)) = do
 
 promptTurn :: Board -> IO Move
 promptTurn board = do
-  hound <-  houndFromCommand <$> promptLine gameMenu
-  direction <- directionFromCommand <$> promptLine directionPrompt -- TODO print possible directions
+  hound <- promptHound
+  direction <-  promptDirection
   if isMoveLegal (Move hound direction) board then
     return $ Move hound direction
   else do
     putStrLn "Invalid move! Try again."
     promptTurn board
 
-directionFromCommand :: Char->Direction
-directionFromCommand _ = SW -- TODO
+promptHound :: IO Piece
+promptHound = do
+   maybeHound<- houndFromCommand <$> promptLine gameMenu
+   case maybeHound of
+     Just hound -> return hound
+     Nothing    -> do
+       putStrLn "Invalid input! Try again."
+       promptHound
 
+promptDirection :: IO Direction
+promptDirection = do
+  maybeDirection <- directionFromCommand <$> promptLine directionPrompt -- TODO print possible directions
+  case maybeDirection of
+    Just direction -> return direction
+    Nothing        -> do
+      putStrLn "Invalid input! Try again."
+      promptDirection
 
-houndFromCommand :: Char -> Piece
-houndFromCommand _ = Hound1 -- TODO
+directionFromCommand :: Char -> Maybe Direction
+directionFromCommand '1' = Just SE -- TODO
+directionFromCommand '2' = Just SW
+directionFromCommand  _  = Nothing
+
+houndFromCommand :: Char -> Maybe Piece
+houndFromCommand '1' = Just Hound1
+houndFromCommand '2' = Just Hound2
+houndFromCommand '3' = Just Hound3
+houndFromCommand '4' = Just Hound4
+houndFromCommand  _  = Nothing
 
 directionPrompt = "Check direction\n"
 
