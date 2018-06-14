@@ -41,10 +41,10 @@ spec = do
             `shouldBe` -1000000
     it "rate: fox turn, depth 0" $
         rate (Board (Position 4 2) ( (Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2))) PlayerFox 0
-            `shouldBe` 11.5
+            `shouldBe` 61.5
     it "rate: hounds turn, depth 0" $
         rate (Board (Position 4 2) ( (Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2))) PlayerHounds 0
-            `shouldBe` -11.5
+            `shouldBe` -61.5
   describe "horizontalDistanceBetweenPositions" $ do
     it "bigger first" $
         horizontalDistanceBetweenPositions (Position 1 7) (Position 1 3) `shouldBe` 4
@@ -63,7 +63,7 @@ spec = do
         maxHoundDistance [(Position 1 6), (Position 7 6), (Position 4 6), (Position 2 6)] `shouldBe` 0
   describe "calcHeuristic" $ do
     it "2x classic + 2 + 3" $
-        calcHeuristic (Board (Position 4 2) ( (Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2))) `shouldBe` 11.5
+        calcHeuristic (Board (Position 4 2) ( (Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2))) `shouldBe` 61.5
   describe "getMaximumBoard" $ do
     it "best board based on rates" $
        getMaximumBoard [
@@ -72,8 +72,3 @@ spec = do
             (Board (Position 2 2) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0))),
             (Board (Position 3 3) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0)))
        ] [16, 19, 9, 11] `shouldBe` (19, (Board (Position 1 1) ( (Position 0 0), (Position 0 0), (Position 0 0), (Position 0 0))))
-  describe "pickBestBoard" $ do
-    it "best board for fox" $
-       snd (pickBestBoard (Board (Position 5 3) ((Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2))) PlayerFox) `shouldBe`
-            (Board (Position 4 2) ((Position 1 6), (Position 7 6), (Position 4 4), (Position 7 2)))
-
