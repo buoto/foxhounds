@@ -65,7 +65,7 @@ promptOperation board= do
     'l' -> do
         newBoard <- loadBoard <$> readFile "save.txt"-- TODO load board
         putStrLn $ show newBoard
-        return $ Just board
+        return $ Just newBoard
     'q' -> return Nothing
     'b' -> do
         putStrLn $ show initBoard
