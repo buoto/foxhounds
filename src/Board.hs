@@ -100,3 +100,14 @@ possibleDirections (Board fox (h1, h2, h3, h4)) piece =
 
 isMoveLegal :: Move -> Board -> Bool
 isMoveLegal (Move piece direction) board = elem (piece, direction) $ possibleDirections board piece
+
+dumpBoard :: Board -> String
+dumpBoard (Board (Position x y) ((Position x1 y1), (Position x2 y2), (Position x3 y3), (Position x4 y4))) =
+  unlines $ map show [x, y, x1, y1, x2, y2, x3, y3, x4, y4]
+
+loadBoard :: String -> Board
+loadBoard s = toBoard $ loadInts s
+  where toBoard (x:y:x1:y1:x2:y2:x3:y3:x4:y4:_) = Board (Position x y) ((Position x1 y1), (Position x2 y2), (Position x3 y3), (Position x4 y4))
+
+loadInts :: String -> [Int]
+loadInts s = map read $ lines s

@@ -35,7 +35,7 @@ initGame = Game initBoard $ Turn PlayerFox
 nextState :: Game -> State
 nextState (Game _ (Winner w)) = Winner w
 nextState (Game b (Turn t)) =
-    case boardWinner b t of
+    case boardWinner b (next t) of
         Just p -> Winner p
         Nothing -> Turn $ next t
     where next PlayerFox    = PlayerHounds

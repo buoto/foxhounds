@@ -3,8 +3,6 @@ import Game
 import Board
 import Data.List
 
-test :: Integer -> Integer
-test x = 3
 
 horizontalDistanceBetweenPositions :: Position -> Position -> Float
 horizontalDistanceBetweenPositions pos1 pos2 = fromIntegral(abs(y pos2 - y pos1))
@@ -20,11 +18,11 @@ maxHoundDistance (hound1:restHounds) = maximum (map (horizontalDistanceBetweenPo
 
 calcHeuristic :: Board -> Float
 calcHeuristic (Board fox (h1,h2,h3,h4)) =
-    maxDistanceBetweenHounds + distanceToWolf / 2
+ foxDistanceToBorder * 10  + maxDistanceBetweenHounds + distanceToWolf / 2
     where
         distanceToWolf = foxDistance fox [h1,h2,h3,h4]
         maxDistanceBetweenHounds = maximum (map maxHoundDistance (permutations [h1,h2,h3,h4]))
-
+        foxDistanceToBorder = fromIntegral $ 7 - (y fox)
 
 
 -- calculates heuristic - the smaller, the better for the hounds

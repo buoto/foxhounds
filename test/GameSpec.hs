@@ -24,4 +24,4 @@ spec = do
         (Turn PlayerFox)) `shouldBe` (Winner PlayerFox)
     it "blocked hounds loose" $
       nextState (Game (Board (Position 1 3) ( (Position 0 4), (Position 2 0), (Position 4 0), (Position 6 0)))
-        (Turn PlayerHounds)) `shouldBe` (Winner PlayerFox)
+        (Turn PlayerFox)) `shouldBe` (Winner PlayerFox)

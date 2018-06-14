@@ -25,6 +25,8 @@ handleOption 's' = runGameCli initGame
 
 handleOption 'q' = exitSuccess
 
+handleOption 'c' = return()
+
 handleOption _ = putStrLn "Unknown unput!"
 
 promptLine :: String -> IO Char
@@ -45,8 +47,29 @@ runGameCli (Game board (Turn PlayerFox)) = runGameCli (Game nextBoard (nextState
 runGameCli (Game board (Turn PlayerHounds)) = do
     putStr $ showBoard board
     putStrLn $ show $ allMoves board PlayerHounds
-    nextBoard <- applyMove board <$> promptTurn board
-    runGameCli (Game nextBoard (nextState (Game nextBoard (Turn PlayerHounds))))
+    alternativeBoardMaybe <- promptOperation board
+    case alternativeBoardMaybe of
+      Just alternativeBoard -> do
+        nextBoard <- applyMove alternativeBoard <$> promptTurn alternativeBoard
+        runGameCli (Game nextBoard (nextState (Game nextBoard (Turn PlayerHounds))))
+      Nothing -> return ()
+
+promptOperation :: Board -> IO (Maybe Board)
+promptOperation board= do
+  line <- promptLine "c-continue, s-save, l-load, q-exit, b-start from beggining"
+  case line of
+    'c' -> return (Just board)
+    's' -> do
+        writeFile "save.txt" (dumpBoard board)
+        return $ Just board  -- TODO save
+    'l' -> do
+        newBoard <- loadBoard <$> readFile "save.txt"-- TODO load board
+        putStrLn $ show newBoard
+        return $ Just board
+    'q' -> return Nothing
+    'b' -> do
+        putStrLn $ show initBoard
+        return (Just initBoard)
 
 promptTurn :: Board -> IO Move
 promptTurn board = do
@@ -57,6 +80,7 @@ promptTurn board = do
   else do
     putStrLn "Invalid move! Try again."
     promptTurn board
+
 
 promptHound :: IO Piece
 promptHound = do
