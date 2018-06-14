@@ -70,6 +70,9 @@ promptOperation board= do
     'b' -> do
         putStrLn $ show initBoard
         return (Just initBoard)
+    otherwise-> do
+        putStr "Game continue\n"
+        return (Just board)
 
 promptTurn :: Board -> IO Move
 promptTurn board = do
